@@ -1,21 +1,24 @@
-package oi.appwish.voteservice.model;
+package oi.appwish.voteservice.model.input;
 
 import java.util.Date;
 
-import io.appwish.grpc.VoteProto;
+import io.appwish.grpc.UpdateVoteInputProto;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoField;
+import oi.appwish.voteservice.model.ItemType;
+import oi.appwish.voteservice.model.VoteType;
 
 /**
- * {@link ProtoClass} and {@link ProtoField} annotations are used by
- * {@link net.badata.protobuf.converter.Converter} to convert back/forth between
- * protobuf data transfer objects and model objects.
+ * This type should be used as input for updates of votes in the database.
  *
- * The converter requires a POJO with getters, setters and a default
- * constructor.
+ * {@link ProtoClass} and {@link ProtoField} annotations are used by {@link
+ * net.badata.protobuf.converter.Converter} to convert back/forth between protobuf data transfer
+ * objects and model objects.
+ *
+ * The converter requires a POJO with getters, setters and a default constructor.
  */
-@ProtoClass(VoteProto.class)
-public class Vote {
+@ProtoClass(UpdateVoteInputProto.class)
+public class UpdateVoteInput {
 
 	@ProtoField
 	private long id;
@@ -35,7 +38,7 @@ public class Vote {
 	@ProtoField
 	private VoteType vote;
 
-	public Vote() {
+	public UpdateVoteInput() {
 		super();
 	}
 
@@ -47,7 +50,7 @@ public class Vote {
 	 * @param createdAt
 	 * @param vote
 	 */
-	public Vote(long id, long userId, long itemId, ItemType itemType, Date createdAt, VoteType vote) {
+	public UpdateVoteInput(long id, long userId, long itemId, ItemType itemType, Date createdAt, VoteType vote) {
 		super();
 		this.id = id;
 		this.userId = userId;
@@ -162,7 +165,7 @@ public class Vote {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Vote other = (Vote) obj;
+		UpdateVoteInput other = (UpdateVoteInput) obj;
 		if (createdAt == null) {
 			if (other.createdAt != null)
 				return false;
@@ -181,5 +184,21 @@ public class Vote {
 		return true;
 	}
 
-	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("UpdateVoteInput [userId=");
+		builder.append(userId);
+		builder.append(", itemId=");
+		builder.append(itemId);
+		builder.append(", itemType=");
+		builder.append(itemType);
+		builder.append(", createdAt=");
+		builder.append(createdAt);
+		builder.append(", vote=");
+		builder.append(vote);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

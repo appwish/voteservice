@@ -1,24 +1,24 @@
-package oi.appwish.voteservice.model;
+package oi.appwish.voteservice.model.input;
 
 import java.util.Date;
 
-import io.appwish.grpc.VoteProto;
+import io.appwish.grpc.WishInputProto;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoField;
+import oi.appwish.voteservice.model.ItemType;
+import oi.appwish.voteservice.model.VoteType;
 
 /**
- * {@link ProtoClass} and {@link ProtoField} annotations are used by
- * {@link net.badata.protobuf.converter.Converter} to convert back/forth between
- * protobuf data transfer objects and model objects.
+ * This type should be used for inserting new wishes to the database.
  *
- * The converter requires a POJO with getters, setters and a default
- * constructor.
+ * {@link ProtoClass} and {@link ProtoField} annotations are used by {@link
+ * net.badata.protobuf.converter.Converter} to convert back/forth between protobuf data transfer
+ * objects and model objects.
+ *
+ * The converter requires a POJO with getters, setters and a default constructor.
  */
-@ProtoClass(VoteProto.class)
-public class Vote {
-
-	@ProtoField
-	private long id;
+@ProtoClass(VoteInputProto.class)
+public class VoteInput {
 
 	@ProtoField
 	private long userId;
@@ -35,40 +35,17 @@ public class Vote {
 	@ProtoField
 	private VoteType vote;
 
-	public Vote() {
-		super();
+	public VoteInput() {
+
 	}
 
-	/**
-	 * @param id
-	 * @param userId
-	 * @param itemId
-	 * @param itemType
-	 * @param createdAt
-	 * @param vote
-	 */
-	public Vote(long id, long userId, long itemId, ItemType itemType, Date createdAt, VoteType vote) {
+	public VoteInput(long userId, long itemId, ItemType itemType, Date createdAt, VoteType vote) {
 		super();
-		this.id = id;
 		this.userId = userId;
 		this.itemId = itemId;
 		this.itemType = itemType;
 		this.createdAt = createdAt;
 		this.vote = vote;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	/**
@@ -146,7 +123,6 @@ public class Vote {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
-		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + (int) (itemId ^ (itemId >>> 32));
 		result = prime * result + ((itemType == null) ? 0 : itemType.hashCode());
 		result = prime * result + (int) (userId ^ (userId >>> 32));
@@ -162,13 +138,11 @@ public class Vote {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Vote other = (Vote) obj;
+		VoteInput other = (VoteInput) obj;
 		if (createdAt == null) {
 			if (other.createdAt != null)
 				return false;
 		} else if (!createdAt.equals(other.createdAt))
-			return false;
-		if (id != other.id)
 			return false;
 		if (itemId != other.itemId)
 			return false;
@@ -181,5 +155,22 @@ public class Vote {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("VoteInput [userId=");
+		builder.append(userId);
+		builder.append(", itemId=");
+		builder.append(itemId);
+		builder.append(", itemType=");
+		builder.append(itemType);
+		builder.append(", createdAt=");
+		builder.append(createdAt);
+		builder.append(", vote=");
+		builder.append(vote);
+		builder.append("]");
+		return builder.toString();
+	}
+	
 	
 }
