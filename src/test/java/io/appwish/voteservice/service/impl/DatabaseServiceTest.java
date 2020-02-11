@@ -28,7 +28,7 @@ import oi.appwish.voteservice.service.DatabaseService;
 @ExtendWith(VertxExtension.class)
 class DatabaseServiceTest {
 
-  private io.appwish.voteservice.service.DatabaseService databaseService;
+  private DatabaseService databaseService;
   private VoteRepository voteRepository;
 
   @BeforeEach
@@ -53,7 +53,7 @@ class DatabaseServiceTest {
 
         // then
         context.verify(() -> {
-          assertEquals(TestData.VOTEES, event.result().body());
+          assertEquals(TestData.VOTES, event.result().body());
           context.completeNow();
         });
       });

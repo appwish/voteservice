@@ -6,25 +6,25 @@ package oi.appwish.voteservice.repository.impl;
  * I'm not sure what's the best practice for storing String SQLs, so for now it'll stay here.
  */
 public enum Query {
-  FIND_ALL_WISH("SELECT * FROM votes"),
-  FIND_ONE_WISH("SELECT * FROM votes WHERE id=$1"),
-  DELETE_WISH_QUERY("DELETE FROM votes WHERE id=$1"),
-  INSERT_WISH_QUERY(
+  FIND_ALL_VOTE("SELECT * FROM votes"),
+  FIND_ONE_VOTE("SELECT * FROM votes WHERE id=$1"),
+  DELETE_VOTE_QUERY("DELETE FROM votes WHERE id=$1"),
+  INSERT_VOTE_QUERY(
     "INSERT INTO votes ("
-      + "title, "
-      + "content, "
-      + "cover_image_url, "
-      + "author_id, "
-      + "url) "
+      + "user_id, "
+      + "item_id, "
+      + "item_type, "
+      + "vote_type, "
+      + "createdAt) "
       + "VALUES ($1, $2, $3, $4, $5) "
       + "RETURNING *"),
-  UPDATE_WISH_QUERY(
+  UPDATE_VOTE_QUERY(
     "UPDATE votes SET "
-      + "title=$1, "
+      + "item_id=$1, "
       + "content=$2, "
       + "cover_image_url=$3 "
       + "WHERE id=$4 RETURNING *"),
-  CREATE_WISH_TABLE(
+  CREATE_VOTE_TABLE(
     "CREATE TABLE IF NOT EXISTS votes("
       + "id serial PRIMARY KEY, "
       + "title VARCHAR (50) NOT NULL, "

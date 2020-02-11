@@ -3,15 +3,17 @@ package oi.appwish.voteservice.repository.impl;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.pgclient.PgPool;
 import io.vertx.sqlclient.Row;
 import io.vertx.sqlclient.Tuple;
+import oi.appwish.voteservice.model.ItemType;
 import oi.appwish.voteservice.model.Vote;
+import oi.appwish.voteservice.model.VoteType;
 import oi.appwish.voteservice.model.input.UpdateVoteInput;
 import oi.appwish.voteservice.model.input.VoteInput;
 import oi.appwish.voteservice.model.query.AllVoteQuery;
@@ -24,11 +26,11 @@ import oi.appwish.voteservice.repository.VoteRepository;
 public class PostgresVoteRepository implements VoteRepository {
 
   private static final String ID_COLUMN = "id";
-  private static final String TITLE_COLUMN = "title";
-  private static final String CONTENT_COLUMN = "content";
-  private static final String COVER_IMAGE_URL_COLUMN = "cover_image_url";
-  private static final String AUTHOR_ID_COLUMN = "author_id";
-  private static final String URL_COLUMN = "url";
+  private static final String USER_ID_COLUMN = "userId";
+  private static final String ITEM_ID_COLUMN = "itemId";
+  private static final String ITEM_TYPE_COLUMN = "itemType";
+  private static final String CREATED_AT_COLUMN = "createdAt";
+  private static final String VOTE_TYPE_COLUMN = "voteType";
 
   private final PgPool client;
 
@@ -40,7 +42,7 @@ public class PostgresVoteRepository implements VoteRepository {
   public Future<List<Vote>> findAll(final AllVoteQuery query) {
     final Promise<List<Vote>> promise = Promise.promise();
 
-    client.preparedQuery(Query.FIND_ALL_WISH.sql(), event -> {
+    client.preparedQuery(Query.FIND_ALL_VOTE.sql(), event -> {
       if (event.succeeded()) {
         final List<Vote> votes = StreamSupport
           .stream(event.result().spliterator(), false)
@@ -59,7 +61,7 @@ public class PostgresVoteRepository implements VoteRepository {
   public Future<Optional<Vote>> findOne(final VoteQuery query) {
     final Promise<Optional<Vote>> promise = Promise.promise();
 
-    client.preparedQuery(Query.FIND_ONE_WISH.sql(), Tuple.of(query.getId()), event -> {
+    client.preparedQuery(Query.FIND_ONE_VOTE.sql(), Tuple.of(query.getId()), event -> {
       if (event.succeeded()) {
         if (event.result().iterator().hasNext()) {
           final Row firstRow = event.result().iterator().next();
@@ -81,8 +83,8 @@ public class PostgresVoteRepository implements VoteRepository {
     final Promise<Vote> promise = Promise.promise();
 
     final Random random = new Random(); // TODO remove hardcoded values
-    client.preparedQuery(Query.INSERT_WISH_QUERY.sql(),
-      Tuple.of(vote.getTitle(), vote.getContent(), vote.getCoverImageUrl(), random.nextLong(), "https://appvote.org/posts/" + random.nextLong()),
+    client.preparedQuery(Query.INSERT_VOTE_QUERY.sql(),
+      Tuple.of(vote.getUserId(), vote.getItemId(), vote.getItemType(), vote.getCreatedAt(), vote.getVoteType()),
       event -> {
         if (event.succeeded()) {
           if (event.result().iterator().hasNext()) {
@@ -103,7 +105,7 @@ public class PostgresVoteRepository implements VoteRepository {
   public Future<Boolean> deleteOne(final VoteQuery query) {
     final Promise<Boolean> promise = Promise.promise();
 
-    client.preparedQuery(Query.DELETE_WISH_QUERY.sql(), Tuple.of(query.getId()), event -> {
+    client.preparedQuery(Query.DELETE_VOTE_QUERY.sql(), Tuple.of(query.getId()), event -> {
       if (event.succeeded()) {
         if (event.result().rowCount() == 1) {
           promise.complete(true);
@@ -119,11 +121,11 @@ public class PostgresVoteRepository implements VoteRepository {
   }
 
   @Override
-  public Future<Optional<Vote>> updateOne(final UpdateVoteInput wish) {
+  public Future<Optional<Vote>> updateOne(final UpdateVoteInput vote) {
     final Promise<Optional<Vote>> promise = Promise.promise();
 
-    client.preparedQuery(Query.UPDATE_WISH_QUERY.sql(),
-      Tuple.of(vote.getTitle(), vote.getContent(), vote.getCoverImageUrl(), vote.getId()),
+    client.preparedQuery(Query.UPDATE_VOTE_QUERY.sql(),
+      Tuple.of(vote.getUserId(), vote.getItemId(), vote.getItemType(), vote.getCreatedAt(), vote.getVoteType()),
       event -> {
         if (event.succeeded() && event.result().rowCount() == 1) {
           final Row row = event.result().iterator().next();
@@ -141,10 +143,10 @@ public class PostgresVoteRepository implements VoteRepository {
   private Vote voteFromRow(final Row row) {
     return new Vote(
       row.getLong(ID_COLUMN),
-      row.getString(TITLE_COLUMN),
-      row.getString(CONTENT_COLUMN),
-      row.getString(COVER_IMAGE_URL_COLUMN),
-      row.getLong(AUTHOR_ID_COLUMN),
-      row.getString(URL_COLUMN));
+      row.getLong(USER_ID_COLUMN),
+      row.getLong(ITEM_ID_COLUMN),
+      ItemType.valueOf(row.getString(ITEM_TYPE_COLUMN)),
+      row.getLocalDateTime(CREATED_AT_COLUMN),
+      VoteType.valueOf(row.getString(VOTE_TYPE_COLUMN)));
   }
 }

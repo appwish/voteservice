@@ -1,8 +1,8 @@
 package oi.appwish.voteservice.model.input;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-import io.appwish.grpc.WishInputProto;
+import io.appwish.grpc.VoteInputProto;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoField;
 import oi.appwish.voteservice.model.ItemType;
@@ -30,22 +30,22 @@ public class VoteInput {
 	private ItemType itemType;
 
 	@ProtoField
-	private Date createdAt;
+	private LocalDateTime createdAt;
 
 	@ProtoField
-	private VoteType vote;
+	private VoteType voteType;
 
 	public VoteInput() {
 
 	}
 
-	public VoteInput(long userId, long itemId, ItemType itemType, Date createdAt, VoteType vote) {
+	public VoteInput(long userId, long itemId, ItemType itemType, LocalDateTime createdAt, VoteType voteType) {
 		super();
 		this.userId = userId;
 		this.itemId = itemId;
 		this.itemType = itemType;
 		this.createdAt = createdAt;
-		this.vote = vote;
+		this.voteType = voteType;
 	}
 
 	/**
@@ -93,29 +93,29 @@ public class VoteInput {
 	/**
 	 * @return the createdAt
 	 */
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
 	/**
 	 * @param createdAt the createdAt to set
 	 */
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
 	/**
-	 * @return the vote
+	 * @return the voteType
 	 */
-	public VoteType getVote() {
-		return vote;
+	public VoteType getVoteType() {
+		return voteType;
 	}
 
 	/**
-	 * @param vote the vote to set
+	 * @param voteType the voteType to set
 	 */
-	public void setVote(VoteType vote) {
-		this.vote = vote;
+	public void setVoteType(VoteType voteType) {
+		this.voteType = voteType;
 	}
 
 	@Override
@@ -126,7 +126,7 @@ public class VoteInput {
 		result = prime * result + (int) (itemId ^ (itemId >>> 32));
 		result = prime * result + ((itemType == null) ? 0 : itemType.hashCode());
 		result = prime * result + (int) (userId ^ (userId >>> 32));
-		result = prime * result + ((vote == null) ? 0 : vote.hashCode());
+		result = prime * result + ((voteType == null) ? 0 : voteType.hashCode());
 		return result;
 	}
 
@@ -150,7 +150,7 @@ public class VoteInput {
 			return false;
 		if (userId != other.userId)
 			return false;
-		if (vote != other.vote)
+		if (voteType != other.voteType)
 			return false;
 		return true;
 	}
@@ -166,8 +166,8 @@ public class VoteInput {
 		builder.append(itemType);
 		builder.append(", createdAt=");
 		builder.append(createdAt);
-		builder.append(", vote=");
-		builder.append(vote);
+		builder.append(", voteType=");
+		builder.append(voteType);
 		builder.append("]");
 		return builder.toString();
 	}

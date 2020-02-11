@@ -1,6 +1,6 @@
 package oi.appwish.voteservice.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import io.appwish.grpc.VoteProto;
 import net.badata.protobuf.converter.annotation.ProtoClass;
@@ -30,10 +30,10 @@ public class Vote {
 	private ItemType itemType;
 
 	@ProtoField
-	private Date createdAt;
+	private LocalDateTime createdAt;
 
 	@ProtoField
-	private VoteType vote;
+	private VoteType voteType;
 
 	public Vote() {
 		super();
@@ -45,16 +45,16 @@ public class Vote {
 	 * @param itemId
 	 * @param itemType
 	 * @param createdAt
-	 * @param vote
+	 * @param voteType
 	 */
-	public Vote(long id, long userId, long itemId, ItemType itemType, Date createdAt, VoteType vote) {
+	public Vote(long id, long userId, long itemId, ItemType itemType, LocalDateTime createdAt, VoteType voteType) {
 		super();
 		this.id = id;
 		this.userId = userId;
 		this.itemId = itemId;
 		this.itemType = itemType;
 		this.createdAt = createdAt;
-		this.vote = vote;
+		this.voteType = voteType;
 	}
 
 	/**
@@ -116,29 +116,29 @@ public class Vote {
 	/**
 	 * @return the createdAt
 	 */
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
 	/**
 	 * @param createdAt the createdAt to set
 	 */
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
 	/**
-	 * @return the vote
+	 * @return the voteType
 	 */
-	public VoteType getVote() {
-		return vote;
+	public VoteType getVoteType() {
+		return voteType;
 	}
 
 	/**
-	 * @param vote the vote to set
+	 * @param voteType the voteType to set
 	 */
-	public void setVote(VoteType vote) {
-		this.vote = vote;
+	public void setVoteType(VoteType voteType) {
+		this.voteType = voteType;
 	}
 
 	@Override
@@ -150,7 +150,7 @@ public class Vote {
 		result = prime * result + (int) (itemId ^ (itemId >>> 32));
 		result = prime * result + ((itemType == null) ? 0 : itemType.hashCode());
 		result = prime * result + (int) (userId ^ (userId >>> 32));
-		result = prime * result + ((vote == null) ? 0 : vote.hashCode());
+		result = prime * result + ((voteType == null) ? 0 : voteType.hashCode());
 		return result;
 	}
 
@@ -176,7 +176,7 @@ public class Vote {
 			return false;
 		if (userId != other.userId)
 			return false;
-		if (vote != other.vote)
+		if (voteType != other.voteType)
 			return false;
 		return true;
 	}

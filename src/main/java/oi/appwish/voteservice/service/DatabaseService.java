@@ -33,7 +33,7 @@ public class DatabaseService {
   }
 
   public void registerEventBusEventHandlers() {
-    eventBus.<AllVoteQuery>consumer(Address.FIND_ALL_VOTES.get())
+	eventBus.<AllVoteQuery>consumer(Address.FIND_ALL_VOTES.get())
       .handler(event -> voteRepository.findAll(event.body()).setHandler(findAllHandler(event)));
 
     eventBus.<VoteQuery>consumer(Address.FIND_ONE_VOTE.get())

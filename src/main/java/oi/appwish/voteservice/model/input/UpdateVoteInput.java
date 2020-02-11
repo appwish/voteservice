@@ -1,6 +1,6 @@
 package oi.appwish.voteservice.model.input;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import io.appwish.grpc.UpdateVoteInputProto;
 import net.badata.protobuf.converter.annotation.ProtoClass;
@@ -9,7 +9,7 @@ import oi.appwish.voteservice.model.ItemType;
 import oi.appwish.voteservice.model.VoteType;
 
 /**
- * This type should be used as input for updates of votes in the database.
+ * This type should be used as input for updates of voteTypes in the database.
  *
  * {@link ProtoClass} and {@link ProtoField} annotations are used by {@link
  * net.badata.protobuf.converter.Converter} to convert back/forth between protobuf data transfer
@@ -33,10 +33,10 @@ public class UpdateVoteInput {
 	private ItemType itemType;
 
 	@ProtoField
-	private Date createdAt;
+	private LocalDateTime createdAt;
 
 	@ProtoField
-	private VoteType vote;
+	private VoteType voteType;
 
 	public UpdateVoteInput() {
 		super();
@@ -48,16 +48,16 @@ public class UpdateVoteInput {
 	 * @param itemId
 	 * @param itemType
 	 * @param createdAt
-	 * @param vote
+	 * @param voteType
 	 */
-	public UpdateVoteInput(long id, long userId, long itemId, ItemType itemType, Date createdAt, VoteType vote) {
+	public UpdateVoteInput(long id, long userId, long itemId, ItemType itemType, LocalDateTime createdAt, VoteType voteType) {
 		super();
 		this.id = id;
 		this.userId = userId;
 		this.itemId = itemId;
 		this.itemType = itemType;
 		this.createdAt = createdAt;
-		this.vote = vote;
+		this.voteType = voteType;
 	}
 
 	/**
@@ -119,29 +119,29 @@ public class UpdateVoteInput {
 	/**
 	 * @return the createdAt
 	 */
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
 	/**
 	 * @param createdAt the createdAt to set
 	 */
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
 	/**
-	 * @return the vote
+	 * @return the voteType
 	 */
-	public VoteType getVote() {
-		return vote;
+	public VoteType getVoteType() {
+		return voteType;
 	}
 
 	/**
-	 * @param vote the vote to set
+	 * @param voteType the voteType to set
 	 */
-	public void setVote(VoteType vote) {
-		this.vote = vote;
+	public void setVoteType(VoteType voteType) {
+		this.voteType = voteType;
 	}
 
 	@Override
@@ -153,7 +153,7 @@ public class UpdateVoteInput {
 		result = prime * result + (int) (itemId ^ (itemId >>> 32));
 		result = prime * result + ((itemType == null) ? 0 : itemType.hashCode());
 		result = prime * result + (int) (userId ^ (userId >>> 32));
-		result = prime * result + ((vote == null) ? 0 : vote.hashCode());
+		result = prime * result + ((voteType == null) ? 0 : voteType.hashCode());
 		return result;
 	}
 
@@ -179,7 +179,7 @@ public class UpdateVoteInput {
 			return false;
 		if (userId != other.userId)
 			return false;
-		if (vote != other.vote)
+		if (voteType != other.voteType)
 			return false;
 		return true;
 	}
@@ -195,8 +195,8 @@ public class UpdateVoteInput {
 		builder.append(itemType);
 		builder.append(", createdAt=");
 		builder.append(createdAt);
-		builder.append(", vote=");
-		builder.append(vote);
+		builder.append(", voteType=");
+		builder.append(voteType);
 		builder.append("]");
 		return builder.toString();
 	}

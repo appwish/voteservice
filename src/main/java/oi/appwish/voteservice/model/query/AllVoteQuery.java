@@ -1,6 +1,6 @@
 package oi.appwish.voteservice.model.query;
 
-import io.appwish.grpc.AllWishQueryProto;
+import io.appwish.grpc.AllVoteQueryProto;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoField;
 

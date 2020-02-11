@@ -1,6 +1,6 @@
 package oi.appwish.voteservice.verticle;
 
-import io.appwish.voteservice.service.GrpcServiceImpl;
+
 import io.grpc.BindableService;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
@@ -10,6 +10,7 @@ import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.grpc.VertxServer;
 import io.vertx.grpc.VertxServerBuilder;
+import oi.appwish.voteservice.service.GrpcServiceImpl;
 
 /**
  * Verticle responsible for spinning up the gRPC server.

@@ -3,10 +3,9 @@ package oi.appwish.voteservice.service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import com.google.common.base.Converter;
-import com.google.common.eventbus.EventBus;
-
+import io.vertx.core.Promise;
+import io.vertx.core.eventbus.EventBus;
+import net.badata.protobuf.converter.Converter;
 import io.appwish.grpc.AllVoteQueryProto;
 import io.appwish.grpc.AllVoteReplyProto;
 import io.appwish.grpc.UpdateVoteInputProto;
@@ -16,7 +15,6 @@ import io.appwish.grpc.VoteProto;
 import io.appwish.grpc.VoteQueryProto;
 import io.appwish.grpc.VoteReplyProto;
 import io.appwish.grpc.VoteServiceGrpc;
-import io.vertx.core.Promise;
 import oi.appwish.voteservice.eventbus.Address;
 import oi.appwish.voteservice.model.Vote;
 import oi.appwish.voteservice.model.input.UpdateVoteInput;
@@ -35,8 +33,8 @@ public class GrpcServiceImpl extends VoteServiceGrpc.VoteServiceVertxImplBase {
   private final EventBus eventBus;
   private final Converter converter;
 
-  public GrpcServiceImpl(final EventBus eventBus) {
-    this.eventBus = eventBus;
+  public GrpcServiceImpl(final io.vertx.core.eventbus.EventBus eventBus2) {
+    this.eventBus = eventBus2;
     this.converter = Converter.create();
   }
 

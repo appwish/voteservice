@@ -1,25 +1,24 @@
 package oi.appwish.voteservice;
 
-import java.util.concurrent.Future;
-import java.util.logging.Logger;
 
-import javax.management.Query;
-
-import io.appwish.voteservice.eventbus.EventBusConfigurer;
-import io.appwish.voteservice.repository.VoteRepository;
-import io.appwish.voteservice.repository.impl.PostgresVoteRepository;
-import io.appwish.voteservice.verticle.DatabaseVerticle;
-import io.appwish.voteservice.verticle.GrpcVerticle;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.DeploymentOptions;
+import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.pgclient.PgConnectOptions;
 import io.vertx.pgclient.PgPool;
 import io.vertx.sqlclient.PoolOptions;
+import oi.appwish.voteservice.eventbus.EventBusConfigurer;
+import oi.appwish.voteservice.repository.VoteRepository;
+import oi.appwish.voteservice.repository.impl.PostgresVoteRepository;
+import oi.appwish.voteservice.repository.impl.Query;
+import oi.appwish.voteservice.verticle.DatabaseVerticle;
+import oi.appwish.voteservice.verticle.GrpcVerticle;
 
 /**
  * Main verticle responsible for configuration and deploying all other verticles

@@ -63,7 +63,7 @@ class GrpcServiceTest {
     promise.future().setHandler(event -> {
       context.verify(() -> {
         assertTrue(promise.future().succeeded());
-        assertEquals(TestData.VOTES, promise.future().result().getVoteesList().stream()
+        assertEquals(TestData.VOTES, promise.future().result().getVotesList().stream()
           .map(it -> Converter.create().toDomain(Vote.class, it)).collect(Collectors.toList()));
         context.completeNow();
       });
@@ -165,9 +165,11 @@ class GrpcServiceTest {
     // given
     final Promise<VoteReplyProto> promise = Promise.promise();
     final VoteInputProto inputProto = VoteInputProto.newBuilder()
-      .setTitle(TestData.SOME_TITLE)
-      .setContent(TestData.SOME_CONTENT)
-      .setCoverImageUrl(TestData.SOME_COVER_IMAGE_URL)
+      .setUserId(TestData.SOME_USER_ID)
+      .setItemId(TestData.SOME_ITEM_ID)
+      .setItemType(TestData.SOME_ITEM_TYPE)
+      .setCreatedAt(TestData.SOME_CREATED_AT)
+      .setVoteType(TestData.SOME_VOTE_TYPE)
       .build();
     vertx.eventBus().consumer(Address.CREATE_ONE_VOTE.get(), event -> {
       event.reply(TestData.VOTE_1);
@@ -192,9 +194,11 @@ class GrpcServiceTest {
     // given
     final Promise<VoteReplyProto> promise = Promise.promise();
     final VoteInputProto inputProto = VoteInputProto.newBuilder()
-      .setTitle(TestData.SOME_TITLE)
-      .setContent(TestData.SOME_CONTENT)
-      .setCoverImageUrl(TestData.SOME_COVER_IMAGE_URL)
+      .setUserId(TestData.SOME_USER_ID)
+      .setItemId(TestData.SOME_ITEM_ID)
+      .setItemType(TestData.SOME_ITEM_TYPE)
+      .setCreatedAt(TestData.SOME_CREATED_AT)
+      .setVoteType(TestData.SOME_VOTE_TYPE)
       .build();
     vertx.eventBus().consumer(Address.CREATE_ONE_VOTE.get(), event -> {
       event.fail(0, TestData.ERROR_MESSAGE);
@@ -218,10 +222,11 @@ class GrpcServiceTest {
     // given
     final Promise<VoteReplyProto> promise = Promise.promise();
     final UpdateVoteInputProto updateVoteInputProto = UpdateVoteInputProto.newBuilder()
-      .setId(TestData.VOTE_3.getId())
-      .setCoverImageUrl(TestData.VOTE_3.getCoverImageUrl())
-      .setTitle(TestData.VOTE_3.getTitle())
-      .setContent(TestData.VOTE_3.getContent())
+      .setUserId(TestData.VOTE_3.getUserId())
+      .setItemId(TestData.VOTE_3.getItemId())
+      .setItemType(TestData.VOTE_3.getItemType())
+      .setCreatedAt(TestData.VOTE_3.getCreatedAt())
+      .setVoteType(TestData.VOTE_3.getVoteType())
       .build();
     vertx.eventBus().consumer(Address.UPDATE_ONE_VOTE.get(), event -> {
       event.reply(Optional.of(TestData.VOTE_3),
@@ -248,10 +253,11 @@ class GrpcServiceTest {
     // given
     final Promise<VoteReplyProto> promise = Promise.promise();
     final UpdateVoteInputProto updateVoteInputProto = UpdateVoteInputProto.newBuilder()
-      .setId(TestData.VOTE_3.getId())
-      .setCoverImageUrl(TestData.VOTE_3.getCoverImageUrl())
-      .setTitle(TestData.VOTE_3.getTitle())
-      .setContent(TestData.VOTE_3.getContent())
+      .setUserId(TestData.VOTE_3.getUserId())
+      .setItemId(TestData.VOTE_3.getItemId())
+      .setItemType(TestData.VOTE_3.getItemType())
+      .setCreatedAt(TestData.VOTE_3.getCreatedAt())
+      .setVoteType(TestData.VOTE_3.getVoteType())
       .build();
     vertx.eventBus().consumer(Address.UPDATE_ONE_VOTE.get(), event -> {
       event.reply(Optional.empty(), new DeliveryOptions().setCodecName(Codec.VOTE.getCodecName()));
@@ -274,10 +280,11 @@ class GrpcServiceTest {
     // given
     final Promise<VoteReplyProto> promise = Promise.promise();
     final UpdateVoteInputProto updateVoteInputProto = UpdateVoteInputProto.newBuilder()
-      .setId(TestData.VOTE_3.getId())
-      .setCoverImageUrl(TestData.VOTE_3.getCoverImageUrl())
-      .setTitle(TestData.VOTE_3.getTitle())
-      .setContent(TestData.VOTE_3.getContent())
+      .setUserId(TestData.VOTE_3.getUserId())
+      .setItemId(TestData.VOTE_3.getItemId())
+      .setItemType(TestData.VOTE_3.getItemType())
+      .setCreatedAt(TestData.VOTE_3.getCreatedAt())
+      .setVoteType(TestData.VOTE_3.getVoteType())
       .build();
     vertx.eventBus().consumer(Address.UPDATE_ONE_VOTE.get(), event -> {
       event.fail(0, TestData.ERROR_MESSAGE);

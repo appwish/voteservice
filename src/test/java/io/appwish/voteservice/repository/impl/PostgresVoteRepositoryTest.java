@@ -70,9 +70,11 @@ class PostgresVoteRepositoryTest {
   void should_be_able_to_store_wish(final Vertx vertx, final VertxTestContext context) {
     // given
     final VoteInput wishInput = new VoteInput(
-      TestData.SOME_TITLE,
-      TestData.SOME_CONTENT,
-      TestData.SOME_COVER_IMAGE_URL);
+      TestData.SOME_USER_ID,
+      TestData.SOME_ITEM_ID,
+      TestData.SOME_ITEM_TYPE,
+      TestData.SOME_CREATED_AT,
+      TestData.SOME_VOTE_TYPE);
 
     // when
     repository.addOne(wishInput)
@@ -81,9 +83,10 @@ class PostgresVoteRepositoryTest {
         // then
         context.verify(() -> {
           assertTrue(event.succeeded());
-          assertEquals(TestData.SOME_TITLE, event.result().getTitle());
-          assertEquals(TestData.SOME_CONTENT, event.result().getContent());
-          assertEquals(TestData.SOME_COVER_IMAGE_URL, event.result().getCoverImageUrl());
+          assertEquals(TestData.SOME_USER_ID, event.result().getUserId());
+          assertEquals(TestData.SOME_ITEM_ID, event.result().getItemId());
+          assertEquals(TestData.SOME_ITEM_TYPE, event.result().getItemType());
+          assertEquals(TestData.SOME_VOTE_TYPE, event.result().getVoteType());
           context.completeNow();
         });
       });
@@ -93,9 +96,11 @@ class PostgresVoteRepositoryTest {
   void should_be_able_to_read_wish(final Vertx vertx, final VertxTestContext context) {
     // given
     final VoteInput wishInput = new VoteInput(
-      TestData.SOME_TITLE,
-      TestData.SOME_CONTENT,
-      TestData.SOME_COVER_IMAGE_URL);
+      TestData.SOME_USER_ID,
+      TestData.SOME_ITEM_ID,
+      TestData.SOME_ITEM_TYPE,
+      TestData.SOME_CREATED_AT,
+      TestData.SOME_VOTE_TYPE);
     context.assertComplete(repository.addOne(wishInput)).setHandler(event -> {
 
       // when
@@ -105,9 +110,10 @@ class PostgresVoteRepositoryTest {
         context.verify(() -> {
           assertTrue(query.succeeded());
           assertTrue(query.result().isPresent());
-          assertEquals(TestData.SOME_TITLE, query.result().get().getTitle());
-          assertEquals(TestData.SOME_CONTENT, query.result().get().getContent());
-          assertEquals(TestData.SOME_COVER_IMAGE_URL, query.result().get().getCoverImageUrl());
+          assertEquals(TestData.SOME_USER_ID, event.result().getUserId());
+          assertEquals(TestData.SOME_ITEM_ID, event.result().getItemId());
+          assertEquals(TestData.SOME_ITEM_TYPE, event.result().getItemType());
+          assertEquals(TestData.SOME_VOTE_TYPE, event.result().getVoteType());
           context.completeNow();
         });
       });
@@ -130,7 +136,7 @@ class PostgresVoteRepositoryTest {
           // then
           assertTrue(query.succeeded());
           assertEquals(4, query.result().size());
-          query.result().forEach(wish -> assertTrue(isInList(wish, TestData.VOTEES)));
+          query.result().forEach(wish -> assertTrue(isInList(wish, TestData.VOTES)));
           context.completeNow();
         }));
       });
@@ -175,8 +181,10 @@ class PostgresVoteRepositoryTest {
     // given
     final UpdateVoteInput updated = new UpdateVoteInput(
       TestData.NON_EXISTING_ID,
-      TestData.VOTE_2.getTitle(), TestData.VOTE_2.getContent(),
-      TestData.VOTE_2.getCoverImageUrl());
+      TestData.VOTE_2.getUserId(),
+      TestData.VOTE_2.getItemId(),
+      TestData.VOTE_2.getItemType(),
+      TestData.VOTE_2.getVoteType());
 
     // when
     repository.updateOne(updated).setHandler(query -> {
@@ -196,8 +204,12 @@ class PostgresVoteRepositoryTest {
     // given
     context.assertComplete(repository.addOne(TestData.VOTE_INPUT_1)).setHandler(event -> {
       final long id = event.result().getId();
-      final UpdateVoteInput updated = new UpdateVoteInput(id, TestData.VOTE_2.getTitle(),
-        TestData.VOTE_1.getContent(), TestData.VOTE_1.getCoverImageUrl());
+      final UpdateVoteInput updated = new UpdateVoteInput(
+    		  id, 
+    	      TestData.VOTE_2.getUserId(),
+    	      TestData.VOTE_1.getItemId(),
+    	      TestData.VOTE_1.getItemType(),
+    	      TestData.VOTE_1.getVoteType());
 
       // when
       repository.updateOne(updated).setHandler(query -> {
@@ -206,9 +218,10 @@ class PostgresVoteRepositoryTest {
         context.verify(() -> {
           assertTrue(query.succeeded());
           assertTrue(query.result().isPresent());
-          assertEquals(TestData.VOTE_2.getTitle(), query.result().get().getTitle());
-          assertEquals(TestData.VOTE_1.getContent(), query.result().get().getContent());
-          assertEquals(TestData.VOTE_1.getCoverImageUrl(), query.result().get().getCoverImageUrl());
+          assertEquals(TestData.VOTE_2.getUserId(), event.result().getUserId());
+          assertEquals(TestData.VOTE_1.getItemId(), event.result().getItemId());
+          assertEquals(TestData.VOTE_1.getItemType(), event.result().getItemType());
+          assertEquals(TestData.VOTE_1.getVoteType(), event.result().getVoteType());
           assertEquals(id, query.result().get().getId());
           context.completeNow();
         });
@@ -222,10 +235,11 @@ class PostgresVoteRepositoryTest {
     final VertxTestContext context) throws Exception {
     // given
     final UpdateVoteInput updateVoteInput = new UpdateVoteInput(
-      TestData.SOME_ID,
-      TestData.SOME_TITLE,
-      TestData.SOME_CONTENT,
-      TestData.SOME_COVER_IMAGE_URL);
+      TestData.SOME_USER_ID,
+      TestData.SOME_ITEM_ID,
+      TestData.SOME_ITEM_TYPE,
+      TestData.SOME_CREATED_AT,
+      TestData.SOME_VOTE_TYPE);
 
     // database down
     postgres.close();
@@ -246,10 +260,11 @@ class PostgresVoteRepositoryTest {
     });
   }
 
-  private static boolean isInList(final Vote wish, final List<Vote> list) {
+  private static boolean isInList(final Vote vote, final List<Vote> list) {
     return list.stream().anyMatch(wishFromList ->
-      wish.getContent().equals(wishFromList.getContent()) &&
-        wish.getTitle().equals(wishFromList.getTitle()) &&
-        wish.getCoverImageUrl().equals(wishFromList.getCoverImageUrl()));
+      vote.getUserId() == wishFromList.getUserId() &&
+        vote.getItemId() == wishFromList.getItemId() &&
+        vote.getItemType().equals(wishFromList.getItemType()) &&
+        vote.getVoteType().equals(wishFromList.getVoteType()));
   }
 }

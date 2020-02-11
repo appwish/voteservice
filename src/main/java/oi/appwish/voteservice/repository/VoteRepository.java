@@ -1,8 +1,8 @@
 package oi.appwish.voteservice.repository;
 
+import io.vertx.core.Future;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.Future;
 
 import oi.appwish.voteservice.model.Vote;
 import oi.appwish.voteservice.model.input.UpdateVoteInput;
