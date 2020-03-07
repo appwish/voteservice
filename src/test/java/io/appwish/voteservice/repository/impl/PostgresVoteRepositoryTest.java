@@ -4,34 +4,33 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import io.appwish.voteservice.model.VoteType;
+import io.vertx.core.Future;
+import io.vertx.junit5.Timeout;
+import io.vertx.junit5.VertxExtension;
+import io.vertx.junit5.VertxTestContext;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
-import org.junit.Test;
+import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import io.appwish.voteservice.TestData;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Vertx;
-import io.vertx.junit5.Timeout;
-import io.vertx.junit5.VertxExtension;
-import io.vertx.junit5.VertxTestContext;
 import io.vertx.pgclient.PgConnectOptions;
 import io.vertx.pgclient.PgPool;
 import io.vertx.sqlclient.PoolOptions;
 import io.zonky.test.db.postgres.embedded.EmbeddedPostgres;
-import oi.appwish.voteservice.model.Vote;
-import oi.appwish.voteservice.model.input.UpdateVoteInput;
-import oi.appwish.voteservice.model.input.VoteInput;
-import oi.appwish.voteservice.model.query.AllVoteQuery;
-import oi.appwish.voteservice.model.query.VoteQuery;
-import oi.appwish.voteservice.repository.VoteRepository;
-import oi.appwish.voteservice.repository.impl.PostgresVoteRepository;
-import oi.appwish.voteservice.repository.impl.Query;
+import io.appwish.voteservice.model.Vote;
+import io.appwish.voteservice.model.input.UpdateVoteInput;
+import io.appwish.voteservice.model.input.VoteInput;
+import io.appwish.voteservice.model.query.AllVoteQuery;
+import io.appwish.voteservice.model.query.VoteQuery;
+import io.appwish.voteservice.repository.VoteRepository;
 
 @ExtendWith(VertxExtension.class)
 class PostgresVoteRepositoryTest {
@@ -67,13 +66,12 @@ class PostgresVoteRepositoryTest {
   }
 
   @Test
-  void should_be_able_to_store_wish(final Vertx vertx, final VertxTestContext context) {
+  void should_be_able_to_store_vote(final Vertx vertx, final VertxTestContext context) {
     // given
     final VoteInput wishInput = new VoteInput(
       TestData.SOME_USER_ID,
       TestData.SOME_ITEM_ID,
       TestData.SOME_ITEM_TYPE,
-      TestData.SOME_CREATED_AT,
       TestData.SOME_VOTE_TYPE);
 
     // when
@@ -93,13 +91,12 @@ class PostgresVoteRepositoryTest {
   }
 
   @Test
-  void should_be_able_to_read_wish(final Vertx vertx, final VertxTestContext context) {
+  void should_be_able_to_read_vote(final Vertx vertx, final VertxTestContext context) {
     // given
     final VoteInput wishInput = new VoteInput(
       TestData.SOME_USER_ID,
       TestData.SOME_ITEM_ID,
       TestData.SOME_ITEM_TYPE,
-      TestData.SOME_CREATED_AT,
       TestData.SOME_VOTE_TYPE);
     context.assertComplete(repository.addOne(wishInput)).setHandler(event -> {
 
@@ -121,7 +118,7 @@ class PostgresVoteRepositoryTest {
   }
 
   @Test
-  void should_be_able_to_read_multiple_wishes(final Vertx vertx, final VertxTestContext context) {
+  void should_be_able_to_read_multiple_votes(final Vertx vertx, final VertxTestContext context) {
     // given
     final Future<Vote> addVote1 = repository.addOne(TestData.VOTE_INPUT_1);
     final Future<Vote> addVote2 = repository.addOne(TestData.VOTE_INPUT_2);
@@ -143,7 +140,7 @@ class PostgresVoteRepositoryTest {
   }
 
   @Test
-  void should_not_delete_non_existent_wish(final Vertx vertx, final VertxTestContext context) {
+  void should_not_delete_non_existent_vote(final Vertx vertx, final VertxTestContext context) {
     // when
     repository.deleteOne(new VoteQuery(TestData.NON_EXISTING_ID))
       .setHandler(event -> {
@@ -158,7 +155,7 @@ class PostgresVoteRepositoryTest {
   }
 
   @Test
-  void should_be_able_to_delete_existing_wish(final Vertx vertx, final VertxTestContext context) {
+  void should_be_able_to_delete_existing_vote(final Vertx vertx, final VertxTestContext context) {
     // given
     context.assertComplete(repository.addOne(TestData.VOTE_INPUT_1)).setHandler(event -> {
       final long id = event.result().getId();
@@ -177,11 +174,10 @@ class PostgresVoteRepositoryTest {
   }
 
   @Test
-  void should_not_update_non_existent_wish(final Vertx vertx, final VertxTestContext context) {
+  void should_not_update_non_existent_vote(final Vertx vertx, final VertxTestContext context) {
     // given
     final UpdateVoteInput updated = new UpdateVoteInput(
       TestData.NON_EXISTING_ID,
-      TestData.VOTE_2.getUserId(),
       TestData.VOTE_2.getItemId(),
       TestData.VOTE_2.getItemType(),
       TestData.VOTE_2.getVoteType());
@@ -199,17 +195,15 @@ class PostgresVoteRepositoryTest {
   }
 
   @Test
-  void  should_update_existing_wish(final Vertx vertx, final VertxTestContext context)
-    throws Exception {
+  void should_update_existing_vote(final Vertx vertx, final VertxTestContext context) throws Exception {
     // given
     context.assertComplete(repository.addOne(TestData.VOTE_INPUT_1)).setHandler(event -> {
       final long id = event.result().getId();
       final UpdateVoteInput updated = new UpdateVoteInput(
     		  id, 
-    	      TestData.VOTE_2.getUserId(),
     	      TestData.VOTE_1.getItemId(),
     	      TestData.VOTE_1.getItemType(),
-    	      TestData.VOTE_1.getVoteType());
+    	      VoteType.DOWN);
 
       // when
       repository.updateOne(updated).setHandler(query -> {
@@ -218,10 +212,7 @@ class PostgresVoteRepositoryTest {
         context.verify(() -> {
           assertTrue(query.succeeded());
           assertTrue(query.result().isPresent());
-          assertEquals(TestData.VOTE_2.getUserId(), event.result().getUserId());
-          assertEquals(TestData.VOTE_1.getItemId(), event.result().getItemId());
-          assertEquals(TestData.VOTE_1.getItemType(), event.result().getItemType());
-          assertEquals(TestData.VOTE_1.getVoteType(), event.result().getVoteType());
+          assertEquals(VoteType.DOWN, query.result().get().getVoteType());
           assertEquals(id, query.result().get().getId());
           context.completeNow();
         });
@@ -231,14 +222,12 @@ class PostgresVoteRepositoryTest {
 
   @Test
   @Timeout(value = 5, timeUnit = TimeUnit.SECONDS)
-  void should_fail_fast_on_postgres_connection_error(final Vertx vertx,
-    final VertxTestContext context) throws Exception {
+  void should_fail_fast_on_postgres_connection_error(final Vertx vertx, final VertxTestContext context) throws Exception {
     // given
     final UpdateVoteInput updateVoteInput = new UpdateVoteInput(
-      TestData.SOME_USER_ID,
+      TestData.NON_EXISTING_ID,
       TestData.SOME_ITEM_ID,
       TestData.SOME_ITEM_TYPE,
-      TestData.SOME_CREATED_AT,
       TestData.SOME_VOTE_TYPE);
 
     // database down

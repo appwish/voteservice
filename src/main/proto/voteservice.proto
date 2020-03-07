@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "google/protobuf/timestamp.proto";
+
 option java_multiple_files = true;
 option java_package = "io.appwish.grpc";
 option java_outer_classname = "VoteGRPC";
@@ -36,35 +38,35 @@ message VoteDeleteReplyProto {
   bool deleted = 1;
 }
 
-message ItemType {
-  int64 WISH = 1;
-  int64 COMMENT = 2;
+enum ItemTypeProto {
+  WISH = 0;
+  COMMENT = 1;
 }
 
-message VoteType {
-  int64 UP = 1;
-  int64 DOWN = 2;
+enum VoteTypeProto {
+  UP = 0;
+  DOWN = 1;
 }
 
 message VoteProto {
   int64 id = 1;
   int64 userId = 2;
   int64 itemId = 3;
-  ItemType itemType = 4;
-  string createdAt = 5;
-  VoteType voteType = 6;
+  ItemTypeProto itemType = 4;
+  google.protobuf.Timestamp created_at = 5;
+  VoteTypeProto voteType = 6;
 }
 
 message VoteInputProto {
   int64 userId = 1;
   int64 itemId = 2;
-  ItemType itemType = 3;
-  VoteType voteType = 4;
+  ItemTypeProto itemType = 3;
+  VoteTypeProto voteType = 4;
 }
 
 message UpdateVoteInputProto {
   int64 userId = 1;
   int64 itemId = 2;
-  ItemType itemType = 3;
-  VoteType voteType = 4;
+  ItemTypeProto itemType = 3;
+  VoteTypeProto voteType = 4;
 }

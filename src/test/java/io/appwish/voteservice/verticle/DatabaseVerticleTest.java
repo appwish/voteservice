@@ -5,20 +5,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.concurrent.Future;
-
-import org.junit.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import io.appwish.voteservice.TestData;
 import io.vertx.core.DeploymentOptions;
-import io.vertx.core.Vertx;
+import io.vertx.core.Future;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
-import oi.appwish.voteservice.eventbus.Address;
-import oi.appwish.voteservice.eventbus.EventBusConfigurer;
-import oi.appwish.voteservice.repository.VoteRepository;
-import oi.appwish.voteservice.verticle.DatabaseVerticle;
+import io.vertx.core.Vertx;
+import io.appwish.voteservice.eventbus.Address;
+import io.appwish.voteservice.eventbus.EventBusConfigurer;
+import io.appwish.voteservice.repository.VoteRepository;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(VertxExtension.class)
 class DatabaseVerticleTest {
@@ -29,8 +27,7 @@ class DatabaseVerticleTest {
     final VoteRepository repository = mock(VoteRepository.class);
     final DatabaseVerticle verticle = new DatabaseVerticle(repository);
     final EventBusConfigurer util = new EventBusConfigurer(vertx.eventBus());
-    when(repository.findAll(TestData.ALL_VOTE_QUERY))
-      .thenReturn(Future.succeededFuture(TestData.VOTES));
+    when(repository.findAll(TestData.ALL_VOTE_QUERY)).thenReturn(Future.succeededFuture(TestData.VOTES));
 
     util.registerCodecs();
 

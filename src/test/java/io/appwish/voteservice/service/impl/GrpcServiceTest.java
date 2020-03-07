@@ -1,18 +1,19 @@
 package io.appwish.voteservice.service.impl;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import io.appwish.grpc.ItemTypeProto;
+import io.appwish.grpc.VoteTypeProto;
+import io.vertx.junit5.VertxExtension;
+import io.vertx.junit5.VertxTestContext;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
-
-import com.google.common.base.Converter;
+import net.badata.protobuf.converter.Converter;
 
 import io.appwish.grpc.AllVoteQueryProto;
 import io.appwish.grpc.AllVoteReplyProto;
@@ -26,13 +27,14 @@ import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.ReplyException;
-import io.vertx.junit5.VertxExtension;
-import io.vertx.junit5.VertxTestContext;
-import oi.appwish.voteservice.eventbus.Address;
-import oi.appwish.voteservice.eventbus.Codec;
-import oi.appwish.voteservice.eventbus.EventBusConfigurer;
-import oi.appwish.voteservice.model.Vote;
-import oi.appwish.voteservice.service.GrpcServiceImpl;
+import io.appwish.voteservice.eventbus.Address;
+import io.appwish.voteservice.eventbus.Codec;
+import io.appwish.voteservice.eventbus.EventBusConfigurer;
+import io.appwish.voteservice.model.Vote;
+import io.appwish.voteservice.service.GrpcServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(VertxExtension.class)
 class GrpcServiceTest {
@@ -167,9 +169,8 @@ class GrpcServiceTest {
     final VoteInputProto inputProto = VoteInputProto.newBuilder()
       .setUserId(TestData.SOME_USER_ID)
       .setItemId(TestData.SOME_ITEM_ID)
-      .setItemType(TestData.SOME_ITEM_TYPE)
-      .setCreatedAt(TestData.SOME_CREATED_AT)
-      .setVoteType(TestData.SOME_VOTE_TYPE)
+      .setItemType(ItemTypeProto.WISH)
+      .setVoteType(VoteTypeProto.UP)
       .build();
     vertx.eventBus().consumer(Address.CREATE_ONE_VOTE.get(), event -> {
       event.reply(TestData.VOTE_1);
@@ -196,9 +197,8 @@ class GrpcServiceTest {
     final VoteInputProto inputProto = VoteInputProto.newBuilder()
       .setUserId(TestData.SOME_USER_ID)
       .setItemId(TestData.SOME_ITEM_ID)
-      .setItemType(TestData.SOME_ITEM_TYPE)
-      .setCreatedAt(TestData.SOME_CREATED_AT)
-      .setVoteType(TestData.SOME_VOTE_TYPE)
+      .setItemType(ItemTypeProto.WISH)
+      .setVoteType(VoteTypeProto.UP)
       .build();
     vertx.eventBus().consumer(Address.CREATE_ONE_VOTE.get(), event -> {
       event.fail(0, TestData.ERROR_MESSAGE);
@@ -224,9 +224,8 @@ class GrpcServiceTest {
     final UpdateVoteInputProto updateVoteInputProto = UpdateVoteInputProto.newBuilder()
       .setUserId(TestData.VOTE_3.getUserId())
       .setItemId(TestData.VOTE_3.getItemId())
-      .setItemType(TestData.VOTE_3.getItemType())
-      .setCreatedAt(TestData.VOTE_3.getCreatedAt())
-      .setVoteType(TestData.VOTE_3.getVoteType())
+      .setItemType(ItemTypeProto.WISH)
+      .setVoteType(VoteTypeProto.UP)
       .build();
     vertx.eventBus().consumer(Address.UPDATE_ONE_VOTE.get(), event -> {
       event.reply(Optional.of(TestData.VOTE_3),
@@ -255,9 +254,8 @@ class GrpcServiceTest {
     final UpdateVoteInputProto updateVoteInputProto = UpdateVoteInputProto.newBuilder()
       .setUserId(TestData.VOTE_3.getUserId())
       .setItemId(TestData.VOTE_3.getItemId())
-      .setItemType(TestData.VOTE_3.getItemType())
-      .setCreatedAt(TestData.VOTE_3.getCreatedAt())
-      .setVoteType(TestData.VOTE_3.getVoteType())
+      .setItemType(ItemTypeProto.WISH)
+      .setVoteType(VoteTypeProto.UP)
       .build();
     vertx.eventBus().consumer(Address.UPDATE_ONE_VOTE.get(), event -> {
       event.reply(Optional.empty(), new DeliveryOptions().setCodecName(Codec.VOTE.getCodecName()));
@@ -282,9 +280,8 @@ class GrpcServiceTest {
     final UpdateVoteInputProto updateVoteInputProto = UpdateVoteInputProto.newBuilder()
       .setUserId(TestData.VOTE_3.getUserId())
       .setItemId(TestData.VOTE_3.getItemId())
-      .setItemType(TestData.VOTE_3.getItemType())
-      .setCreatedAt(TestData.VOTE_3.getCreatedAt())
-      .setVoteType(TestData.VOTE_3.getVoteType())
+      .setItemType(ItemTypeProto.WISH)
+      .setVoteType(VoteTypeProto.UP)
       .build();
     vertx.eventBus().consumer(Address.UPDATE_ONE_VOTE.get(), event -> {
       event.fail(0, TestData.ERROR_MESSAGE);
