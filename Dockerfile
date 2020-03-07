@@ -14,7 +14,7 @@ RUN ./gradlew shadowJar
 
 FROM azul/zulu-openjdk-alpine:11-jre
 
-COPY --from=builder /usr/app/build/libs/wishservice-1.0.0-SNAPSHOT-fat.jar voteservice.jar
+COPY --from=builder /usr/app/build/libs/voteservice-1.0.0-SNAPSHOT-fat.jar voteservice.jar
 
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "voteservice.jar"]
