@@ -1,6 +1,6 @@
 package io.appwish.voteservice.model.reply;
 
-import io.appwish.grpc.VoteDeleteReplyProto;
+import io.appwish.grpc.UnvoteReplyProto;
 import java.util.Objects;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoField;
@@ -13,7 +13,7 @@ import net.badata.protobuf.converter.annotation.ProtoField;
  * <p>
  * The converter requires a POJO with getters, setters and a default constructor.
  */
-@ProtoClass(VoteDeleteReplyProto.class)
+@ProtoClass(UnvoteReplyProto.class)
 public class UnvoteReply {
 
   @ProtoField
@@ -53,7 +53,7 @@ public class UnvoteReply {
 
   @Override
   public String toString() {
-    return "VoteDeleteReply{" +
+    return "UnvoteReply{" +
         "deleted=" + deleted +
         '}';
   }

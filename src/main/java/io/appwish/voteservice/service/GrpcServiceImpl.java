@@ -10,13 +10,13 @@ import io.appwish.grpc.VoteScoreReplyProto;
 import io.appwish.grpc.VoteSelectorProto;
 import io.appwish.grpc.VoteServiceGrpc;
 import io.appwish.voteservice.eventbus.Address;
+import io.appwish.voteservice.interceptor.UserContextInterceptor;
 import io.appwish.voteservice.model.Score;
 import io.appwish.voteservice.model.Vote;
 import io.appwish.voteservice.model.input.VoteInput;
 import io.appwish.voteservice.model.query.VoteSelector;
 import io.appwish.voteservice.model.reply.UnvoteReply;
 import io.appwish.voteservice.model.reply.VoteReply;
-import io.appwish.voteservice.verticle.GrpcVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
@@ -42,7 +42,7 @@ public class GrpcServiceImpl extends VoteServiceGrpc.VoteServiceVertxImplBase {
    */
   @Override
   public void vote(final VoteInputProto input, final Promise<VoteReplyProto> response) {
-    final String userId = GrpcVerticle.USER_CONTEXT.get();
+    final String userId = UserContextInterceptor.USER_CONTEXT.get();
     final DeliveryOptions options = isNull(userId) ? new DeliveryOptions() : new DeliveryOptions().addHeader(USER_ID, userId);
 
     eventBus.<Vote>request(Address.VOTE.get(), converter.toDomain(VoteInput.class, input), options,
@@ -56,31 +56,11 @@ public class GrpcServiceImpl extends VoteServiceGrpc.VoteServiceVertxImplBase {
   }
 
   /**
-   * This method gets invoked when other service (app, microservice) invokes stub.updateVote(...)
-   */
-  @Override
-  public void updateVote(final VoteInputProto input, final Promise<VoteReplyProto> response) {
-    final String userId = GrpcVerticle.USER_CONTEXT.get();
-    final DeliveryOptions options = isNull(userId) ? new DeliveryOptions() : new DeliveryOptions().addHeader(USER_ID, userId);
-
-    eventBus.<Vote>request(Address.UPDATE_VOTE.get(), converter.toDomain(VoteInput.class, input), options,
-        event -> {
-          if (event.succeeded() && !isNull(event.result().body())) {
-            response.complete(converter.toProtobuf(VoteReplyProto.class, new VoteReply(event.result().body())));
-          } else if (event.succeeded()) {
-            response.complete();
-          } else {
-            response.fail(event.cause());
-          }
-        });
-  }
-
-  /**
    * This method gets invoked when other service (app, microservice) invokes stub.unvote(...)
    */
   @Override
   public void unvote(final VoteSelectorProto selector, final Promise<UnvoteReplyProto> response) {
-    final String userId = GrpcVerticle.USER_CONTEXT.get();
+    final String userId = UserContextInterceptor.USER_CONTEXT.get();
     final DeliveryOptions options = isNull(userId) ? new DeliveryOptions() : new DeliveryOptions().addHeader(USER_ID, userId);
 
     eventBus.<Boolean>request(Address.UNVOTE.get(), converter.toDomain(VoteSelector.class, selector), options,
@@ -98,7 +78,7 @@ public class GrpcServiceImpl extends VoteServiceGrpc.VoteServiceVertxImplBase {
    */
   @Override
   public void hasVoted(final VoteSelectorProto selector, final Promise<HasVotedReplyProto> response) {
-    final String userId = GrpcVerticle.USER_CONTEXT.get();
+    final String userId = UserContextInterceptor.USER_CONTEXT.get();
     final DeliveryOptions options = isNull(userId) ? new DeliveryOptions() : new DeliveryOptions().addHeader(USER_ID, userId);
 
     eventBus.<Boolean>request(Address.HAS_VOTED.get(), converter.toDomain(VoteSelector.class, selector), options,

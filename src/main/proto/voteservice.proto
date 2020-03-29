@@ -9,8 +9,6 @@ option java_outer_classname = "VoteGRPC";
 service VoteService {
   rpc Vote (VoteInputProto) returns (VoteReplyProto) {
   }
-  rpc UpdateVote (VoteInputProto) returns (VoteReplyProto) {
-  }
   rpc Unvote (VoteSelectorProto) returns (UnvoteReplyProto) {
   }
   rpc HasVoted (VoteSelectorProto) returns (HasVotedReplyProto) {

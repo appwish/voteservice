@@ -1,6 +1,6 @@
 package io.appwish.voteservice.model;
 
-import io.appwish.grpc.VoteScoreProto;
+import io.appwish.grpc.VoteScoreReplyProto;
 import java.util.Objects;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoField;
@@ -13,7 +13,7 @@ import net.badata.protobuf.converter.annotation.ProtoField;
  * <p>
  * The converter requires a POJO with getters, setters and a default constructor.
  */
-@ProtoClass(VoteScoreProto.class)
+@ProtoClass(VoteScoreReplyProto.class)
 public class Score {
 
   @ProtoField

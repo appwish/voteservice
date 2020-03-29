@@ -1,6 +1,6 @@
 package io.appwish.voteservice.model.query;
 
-import io.appwish.grpc.VoteQueryProto;
+import io.appwish.grpc.VoteSelectorProto;
 import io.appwish.voteservice.model.converter.ItemTypeConverter;
 import io.appwish.voteservice.model.type.ItemType;
 import java.util.Objects;
@@ -15,7 +15,7 @@ import net.badata.protobuf.converter.annotation.ProtoField;
  * <p>
  * The converter requires a POJO with getters, setters and a default constructor.
  */
-@ProtoClass(VoteQueryProto.class)
+@ProtoClass(VoteSelectorProto.class)
 public class VoteSelector {
 
   @ProtoField
