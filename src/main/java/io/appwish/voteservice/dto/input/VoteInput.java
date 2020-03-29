@@ -1,10 +1,10 @@
-package io.appwish.voteservice.model.input;
+package io.appwish.voteservice.dto.input;
 
 import io.appwish.grpc.VoteInputProto;
-import io.appwish.voteservice.model.converter.ItemTypeConverter;
-import io.appwish.voteservice.model.converter.VoteTypeConverter;
-import io.appwish.voteservice.model.type.ItemType;
-import io.appwish.voteservice.model.type.VoteType;
+import io.appwish.voteservice.dto.converter.ItemTypeConverter;
+import io.appwish.voteservice.dto.converter.VoteTypeConverter;
+import io.appwish.voteservice.dto.type.ItemType;
+import io.appwish.voteservice.dto.type.VoteType;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoField;
 

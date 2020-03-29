@@ -8,10 +8,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import io.appwish.voteservice.TestData;
+import io.appwish.voteservice.dto.Vote;
+import io.appwish.voteservice.dto.query.VoteSelector;
 import io.appwish.voteservice.eventbus.Address;
 import io.appwish.voteservice.eventbus.EventBusConfigurer;
-import io.appwish.voteservice.model.Vote;
-import io.appwish.voteservice.model.query.VoteSelector;
 import io.appwish.voteservice.repository.VoteRepository;
 import io.appwish.voteservice.service.DatabaseService;
 import io.vertx.core.Future;

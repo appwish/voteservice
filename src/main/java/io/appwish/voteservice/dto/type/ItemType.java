@@ -1,4 +1,4 @@
-package io.appwish.voteservice.model.type;
+package io.appwish.voteservice.dto.type;
 
 /**
  * Represents available types of items to vote on.

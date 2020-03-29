@@ -1,11 +1,11 @@
 package io.appwish.voteservice;
 
 import com.google.protobuf.Timestamp;
-import io.appwish.voteservice.model.Vote;
-import io.appwish.voteservice.model.input.VoteInput;
-import io.appwish.voteservice.model.query.VoteSelector;
-import io.appwish.voteservice.model.type.ItemType;
-import io.appwish.voteservice.model.type.VoteType;
+import io.appwish.voteservice.dto.Vote;
+import io.appwish.voteservice.dto.input.VoteInput;
+import io.appwish.voteservice.dto.query.VoteSelector;
+import io.appwish.voteservice.dto.type.ItemType;
+import io.appwish.voteservice.dto.type.VoteType;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;

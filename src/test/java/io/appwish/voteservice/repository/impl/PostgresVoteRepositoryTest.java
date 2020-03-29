@@ -7,12 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.appwish.voteservice.TestData;
-import io.appwish.voteservice.model.Score;
-import io.appwish.voteservice.model.Vote;
-import io.appwish.voteservice.model.input.VoteInput;
-import io.appwish.voteservice.model.query.VoteSelector;
-import io.appwish.voteservice.model.type.ItemType;
-import io.appwish.voteservice.model.type.VoteType;
+import io.appwish.voteservice.dto.Score;
+import io.appwish.voteservice.dto.Vote;
+import io.appwish.voteservice.dto.input.VoteInput;
+import io.appwish.voteservice.dto.query.VoteSelector;
+import io.appwish.voteservice.dto.type.ItemType;
+import io.appwish.voteservice.dto.type.VoteType;
 import io.appwish.voteservice.repository.VoteRepository;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;

@@ -1,11 +1,11 @@
-package io.appwish.voteservice.model;
+package io.appwish.voteservice.dto;
 
 import com.google.protobuf.Timestamp;
 import io.appwish.grpc.VoteProto;
-import io.appwish.voteservice.model.converter.ItemTypeConverter;
-import io.appwish.voteservice.model.converter.VoteTypeConverter;
-import io.appwish.voteservice.model.type.ItemType;
-import io.appwish.voteservice.model.type.VoteType;
+import io.appwish.voteservice.dto.converter.ItemTypeConverter;
+import io.appwish.voteservice.dto.converter.VoteTypeConverter;
+import io.appwish.voteservice.dto.type.ItemType;
+import io.appwish.voteservice.dto.type.VoteType;
 import java.util.Objects;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoField;

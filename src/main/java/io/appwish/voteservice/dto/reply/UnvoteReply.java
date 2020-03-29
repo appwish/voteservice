@@ -1,38 +1,37 @@
-package io.appwish.voteservice.model.reply;
+package io.appwish.voteservice.dto.reply;
 
-import io.appwish.grpc.VoteReplyProto;
-import io.appwish.voteservice.model.Vote;
+import io.appwish.grpc.UnvoteReplyProto;
 import java.util.Objects;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoField;
 
 /**
- * Represents data to return for single vote query.
+ * Represents data to return for delete vote query.
  * <p>
  * {@link ProtoClass} and {@link ProtoField} annotations are used by {@link net.badata.protobuf.converter.Converter} to convert back/forth between
  * protobuf data transfer objects and model objects.
  * <p>
  * The converter requires a POJO with getters, setters and a default constructor.
  */
-@ProtoClass(VoteReplyProto.class)
-public class VoteReply {
+@ProtoClass(UnvoteReplyProto.class)
+public class UnvoteReply {
 
   @ProtoField
-  private Vote vote;
+  private boolean deleted;
 
-  public VoteReply(final Vote vote) {
-    this.vote = vote;
+  public UnvoteReply(final boolean deleted) {
+    this.deleted = deleted;
   }
 
-  public VoteReply() {
+  public UnvoteReply() {
   }
 
-  public Vote getVote() {
-    return vote;
+  public boolean isDeleted() {
+    return deleted;
   }
 
-  public void setVote(final Vote vote) {
-    this.vote = vote;
+  public void setDeleted(final boolean deleted) {
+    this.deleted = deleted;
   }
 
   @Override
@@ -43,19 +42,19 @@ public class VoteReply {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    VoteReply voteReply = (VoteReply) o;
-    return Objects.equals(vote, voteReply.vote);
+    UnvoteReply that = (UnvoteReply) o;
+    return deleted == that.deleted;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(vote);
+    return Objects.hash(deleted);
   }
 
   @Override
   public String toString() {
-    return "VoteReply{" +
-        "vote=" + vote +
+    return "UnvoteReply{" +
+        "deleted=" + deleted +
         '}';
   }
 }

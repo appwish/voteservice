@@ -1,7 +1,7 @@
-package io.appwish.voteservice.model.converter;
+package io.appwish.voteservice.dto.converter;
 
 import io.appwish.grpc.VoteTypeProto;
-import io.appwish.voteservice.model.type.VoteType;
+import io.appwish.voteservice.dto.type.VoteType;
 import net.badata.protobuf.converter.type.TypeConverter;
 
 /**

@@ -1,9 +1,9 @@
 package io.appwish.voteservice.repository;
 
-import io.appwish.voteservice.model.Score;
-import io.appwish.voteservice.model.Vote;
-import io.appwish.voteservice.model.input.VoteInput;
-import io.appwish.voteservice.model.query.VoteSelector;
+import io.appwish.voteservice.dto.Score;
+import io.appwish.voteservice.dto.Vote;
+import io.appwish.voteservice.dto.input.VoteInput;
+import io.appwish.voteservice.dto.query.VoteSelector;
 import io.vertx.core.Future;
 
 /**

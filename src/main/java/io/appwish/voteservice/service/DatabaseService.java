@@ -2,10 +2,10 @@ package io.appwish.voteservice.service;
 
 import static java.util.Objects.isNull;
 
+import io.appwish.voteservice.dto.Vote;
+import io.appwish.voteservice.dto.input.VoteInput;
+import io.appwish.voteservice.dto.query.VoteSelector;
 import io.appwish.voteservice.eventbus.Address;
-import io.appwish.voteservice.model.Vote;
-import io.appwish.voteservice.model.input.VoteInput;
-import io.appwish.voteservice.model.query.VoteSelector;
 import io.appwish.voteservice.repository.VoteRepository;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;

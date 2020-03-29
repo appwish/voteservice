@@ -1,4 +1,4 @@
-package io.appwish.voteservice.model;
+package io.appwish.voteservice.dto;
 
 import io.appwish.grpc.VoteScoreReplyProto;
 import java.util.Objects;

@@ -1,8 +1,8 @@
-package io.appwish.voteservice.model.query;
+package io.appwish.voteservice.dto.query;
 
 import io.appwish.grpc.VoteSelectorProto;
-import io.appwish.voteservice.model.converter.ItemTypeConverter;
-import io.appwish.voteservice.model.type.ItemType;
+import io.appwish.voteservice.dto.converter.ItemTypeConverter;
+import io.appwish.voteservice.dto.type.ItemType;
 import java.util.Objects;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoField;
