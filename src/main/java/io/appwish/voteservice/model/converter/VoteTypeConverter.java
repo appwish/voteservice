@@ -1,8 +1,12 @@
-package io.appwish.voteservice.model;
+package io.appwish.voteservice.model.converter;
 
 import io.appwish.grpc.VoteTypeProto;
+import io.appwish.voteservice.model.type.VoteType;
 import net.badata.protobuf.converter.type.TypeConverter;
 
+/**
+ * Allows converting {@link VoteType} objects to {@link VoteTypeProto} and reverse.
+ */
 public class VoteTypeConverter implements TypeConverter<VoteType, VoteTypeProto> {
 
   @Override
@@ -30,5 +34,4 @@ public class VoteTypeConverter implements TypeConverter<VoteType, VoteTypeProto>
 
     throw new IllegalArgumentException("Instance is none of valid values of VoteType");
   }
-
 }

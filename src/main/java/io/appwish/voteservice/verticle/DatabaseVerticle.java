@@ -1,13 +1,12 @@
 package io.appwish.voteservice.verticle;
 
-import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Promise;
 import io.appwish.voteservice.repository.VoteRepository;
 import io.appwish.voteservice.service.DatabaseService;
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Promise;
 
 /**
- * Verticle responsible for database access. Registers DatabaseService to expose the database on the
- * event bus.
+ * Verticle responsible for database access. Registers DatabaseService to expose the database on the event bus.
  */
 public class DatabaseVerticle extends AbstractVerticle {
 

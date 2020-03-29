@@ -1,31 +1,29 @@
 package io.appwish.voteservice.model.reply;
 
-import java.util.Objects;
-
 import io.appwish.grpc.VoteDeleteReplyProto;
+import java.util.Objects;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoField;
 
 /**
  * Represents data to return for delete vote query.
- *
- * {@link ProtoClass} and {@link ProtoField} annotations are used by {@link
- * net.badata.protobuf.converter.Converter} to convert back/forth between protobuf data transfer
- * objects and model objects.
- *
+ * <p>
+ * {@link ProtoClass} and {@link ProtoField} annotations are used by {@link net.badata.protobuf.converter.Converter} to convert back/forth between
+ * protobuf data transfer objects and model objects.
+ * <p>
  * The converter requires a POJO with getters, setters and a default constructor.
  */
 @ProtoClass(VoteDeleteReplyProto.class)
-public class VoteDeleteReply {
+public class UnvoteReply {
 
   @ProtoField
   private boolean deleted;
 
-  public VoteDeleteReply(boolean deleted) {
+  public UnvoteReply(final boolean deleted) {
     this.deleted = deleted;
   }
 
-  public VoteDeleteReply() {
+  public UnvoteReply() {
   }
 
   public boolean isDeleted() {
@@ -44,12 +42,19 @@ public class VoteDeleteReply {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    VoteDeleteReply that = (VoteDeleteReply) o;
+    UnvoteReply that = (UnvoteReply) o;
     return deleted == that.deleted;
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(deleted);
+  }
+
+  @Override
+  public String toString() {
+    return "VoteDeleteReply{" +
+        "deleted=" + deleted +
+        '}';
   }
 }

@@ -1,184 +1,137 @@
 package io.appwish.voteservice.model;
 
 import com.google.protobuf.Timestamp;
-
 import io.appwish.grpc.VoteProto;
+import io.appwish.voteservice.model.converter.ItemTypeConverter;
+import io.appwish.voteservice.model.converter.VoteTypeConverter;
+import io.appwish.voteservice.model.type.ItemType;
+import io.appwish.voteservice.model.type.VoteType;
+import java.util.Objects;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoField;
 
 /**
- * {@link ProtoClass} and {@link ProtoField} annotations are used by
- * {@link net.badata.protobuf.converter.Converter} to convert back/forth between
+ * Represents single user's vote.
+ * <p>
+ * {@link ProtoClass} and {@link ProtoField} annotations are used by {@link net.badata.protobuf.converter.Converter} to convert back/forth between
  * protobuf data transfer objects and model objects.
- *
- * The converter requires a POJO with getters, setters and a default
- * constructor.
+ * <p>
+ * The converter requires a POJO with getters, setters and a default constructor.
  */
 @ProtoClass(VoteProto.class)
 public class Vote {
 
-	@ProtoField
-	private long id;
+  @ProtoField
+  private long id;
 
-	@ProtoField
-	private long userId;
+  @ProtoField
+  private String userId;
 
-	@ProtoField
-	private long itemId;
+  @ProtoField
+  private long itemId;
 
-	@ProtoField(converter = ItemTypeConverter.class)
-	private ItemType itemType;
+  @ProtoField(converter = ItemTypeConverter.class)
+  private ItemType itemType;
 
-	@ProtoField
-	private Timestamp createdAt;
+  @ProtoField
+  private Timestamp createdAt;
 
-	@ProtoField(converter = VoteTypeConverter.class)
-	private VoteType voteType;
+  @ProtoField(converter = VoteTypeConverter.class)
+  private VoteType voteType;
 
-	public Vote() {
-		super();
-	}
+  public Vote() {
+    super();
+  }
 
-	/**
-	 * @param id
-	 * @param userId
-	 * @param itemId
-	 * @param itemType
-	 * @param createdAt
-	 * @param voteType
-	 */
-	public Vote(final long id, final long userId, final long itemId, final ItemType itemType, final VoteType voteType, final Timestamp createdAt) {
-		super();
-		this.id = id;
-		this.userId = userId;
-		this.itemId = itemId;
-		this.itemType = itemType;
-		this.createdAt = createdAt;
-		this.voteType = voteType;
-	}
+  public Vote(final long id, final String userId, final long itemId, final ItemType itemType, final VoteType voteType, final Timestamp createdAt) {
+    super();
+    this.id = id;
+    this.userId = userId;
+    this.itemId = itemId;
+    this.itemType = itemType;
+    this.createdAt = createdAt;
+    this.voteType = voteType;
+  }
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
+  public long getId() {
+    return id;
+  }
 
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(long id) {
-		this.id = id;
-	}
+  public void setId(long id) {
+    this.id = id;
+  }
 
-	/**
-	 * @return the userId
-	 */
-	public long getUserId() {
-		return userId;
-	}
+  public String getUserId() {
+    return userId;
+  }
 
-	/**
-	 * @param userId the userId to set
-	 */
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
+  public void setUserId(final String userId) {
+    this.userId = userId;
+  }
 
-	/**
-	 * @return the itemId
-	 */
-	public long getItemId() {
-		return itemId;
-	}
+  public long getItemId() {
+    return itemId;
+  }
 
-	/**
-	 * @param itemId the itemId to set
-	 */
-	public void setItemId(long itemId) {
-		this.itemId = itemId;
-	}
+  public void setItemId(long itemId) {
+    this.itemId = itemId;
+  }
 
-	/**
-	 * @return the itemType
-	 */
-	public ItemType getItemType() {
-		return itemType;
-	}
+  public ItemType getItemType() {
+    return itemType;
+  }
 
-	/**
-	 * @param itemType the itemType to set
-	 */
-	public void setItemType(ItemType itemType) {
-		this.itemType = itemType;
-	}
+  public void setItemType(ItemType itemType) {
+    this.itemType = itemType;
+  }
 
-	/**
-	 * @return the createdAt
-	 */
-	public Timestamp getCreatedAt() {
-		return createdAt;
-	}
+  public Timestamp getCreatedAt() {
+    return createdAt;
+  }
 
-	/**
-	 * @param createdAt the createdAt to set
-	 */
-	public void setCreatedAt(Timestamp createdAt) {
-		this.createdAt = createdAt;
-	}
+  public void setCreatedAt(Timestamp createdAt) {
+    this.createdAt = createdAt;
+  }
 
-	/**
-	 * @return the voteType
-	 */
-	public VoteType getVoteType() {
-		return voteType;
-	}
+  public VoteType getVoteType() {
+    return voteType;
+  }
 
-	/**
-	 * @param voteType the voteType to set
-	 */
-	public void setVoteType(VoteType voteType) {
-		this.voteType = voteType;
-	}
+  public void setVoteType(VoteType voteType) {
+    this.voteType = voteType;
+  }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
-		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + (int) (itemId ^ (itemId >>> 32));
-		result = prime * result + ((itemType == null) ? 0 : itemType.hashCode());
-		result = prime * result + (int) (userId ^ (userId >>> 32));
-		result = prime * result + ((voteType == null) ? 0 : voteType.hashCode());
-		return result;
-	}
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Vote vote = (Vote) o;
+    return id == vote.id &&
+        itemId == vote.itemId &&
+        userId.equals(vote.userId) &&
+        itemType == vote.itemType &&
+        createdAt.equals(vote.createdAt) &&
+        voteType == vote.voteType;
+  }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Vote other = (Vote) obj;
-		if (createdAt == null) {
-			if (other.createdAt != null)
-				return false;
-		} else if (!createdAt.equals(other.createdAt))
-			return false;
-		if (id != other.id)
-			return false;
-		if (itemId != other.itemId)
-			return false;
-		if (itemType != other.itemType)
-			return false;
-		if (userId != other.userId)
-			return false;
-		if (voteType != other.voteType)
-			return false;
-		return true;
-	}
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, userId, itemId, itemType, createdAt, voteType);
+  }
 
+  @Override
+  public String toString() {
+    return "Vote{" +
+        "id=" + id +
+        ", userId='" + userId + '\'' +
+        ", itemId=" + itemId +
+        ", itemType=" + itemType +
+        ", createdAt=" + createdAt +
+        ", voteType=" + voteType +
+        '}';
+  }
 }

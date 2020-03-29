@@ -1,6 +1,12 @@
 package io.appwish.voteservice;
 
 
+import io.appwish.voteservice.eventbus.EventBusConfigurer;
+import io.appwish.voteservice.repository.VoteRepository;
+import io.appwish.voteservice.repository.impl.PostgresVoteRepository;
+import io.appwish.voteservice.repository.impl.Query;
+import io.appwish.voteservice.verticle.DatabaseVerticle;
+import io.appwish.voteservice.verticle.GrpcVerticle;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.CompositeFuture;
@@ -13,12 +19,6 @@ import io.vertx.core.logging.LoggerFactory;
 import io.vertx.pgclient.PgConnectOptions;
 import io.vertx.pgclient.PgPool;
 import io.vertx.sqlclient.PoolOptions;
-import io.appwish.voteservice.eventbus.EventBusConfigurer;
-import io.appwish.voteservice.repository.VoteRepository;
-import io.appwish.voteservice.repository.impl.PostgresVoteRepository;
-import io.appwish.voteservice.repository.impl.Query;
-import io.appwish.voteservice.verticle.DatabaseVerticle;
-import io.appwish.voteservice.verticle.GrpcVerticle;
 
 /**
  * Main verticle responsible for configuration and deploying all other verticles
@@ -45,11 +45,11 @@ public class MainVerticle extends AbstractVerticle {
       final String databasePassword = config.getString(DATABASE_PASSWORD);
 
       final PgConnectOptions connectOptions = new PgConnectOptions()
-        .setPort(databasePort)
-        .setHost(databaseHost)
-        .setDatabase(databaseName)
-        .setUser(databaseUser)
-        .setPassword(databasePassword);
+          .setPort(databasePort)
+          .setHost(databaseHost)
+          .setDatabase(databaseName)
+          .setUser(databaseUser)
+          .setPassword(databasePassword);
 
       final PoolOptions poolOptions = new PoolOptions().setMaxSize(5);
       final PgPool client = PgPool.pool(vertx, connectOptions, poolOptions);
@@ -62,16 +62,16 @@ public class MainVerticle extends AbstractVerticle {
       client.preparedQuery(Query.CREATE_VOTE_TABLE.sql(), query -> { });
 
       CompositeFuture.all(
-        deployDatabaseVerticle(repository),
-        deployGrpcVerticle())
-        .setHandler(ar -> {
-          if (ar.succeeded()) {
-            startPromise.complete();
-          } else {
-            LOG.error("Could not deploy required verticles", ar.cause());
-            startPromise.fail(ar.cause());
-          }
-        });
+          deployDatabaseVerticle(repository),
+          deployGrpcVerticle())
+          .setHandler(ar -> {
+            if (ar.succeeded()) {
+              startPromise.complete();
+            } else {
+              LOG.error("Could not deploy required verticles", ar.cause());
+              startPromise.fail(ar.cause());
+            }
+          });
     });
   }
 

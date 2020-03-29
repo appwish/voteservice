@@ -1,27 +1,38 @@
 package io.appwish.voteservice.repository;
 
-import io.vertx.core.Future;
-import java.util.List;
-import java.util.Optional;
-
+import io.appwish.voteservice.model.Score;
 import io.appwish.voteservice.model.Vote;
-import io.appwish.voteservice.model.input.UpdateVoteInput;
 import io.appwish.voteservice.model.input.VoteInput;
-import io.appwish.voteservice.model.query.AllVoteQuery;
-import io.appwish.voteservice.model.query.VoteQuery;
+import io.appwish.voteservice.model.query.VoteSelector;
+import io.vertx.core.Future;
 
 /**
  * Interface for interaction with vote persistence layer
  */
 public interface VoteRepository {
 
-  Future<List<Vote>> findAll(final AllVoteQuery query);
+  /**
+   * Persists user's vote in the database.
+   */
+  Future<Vote> vote(final VoteInput input, final String userId);
 
-  Future<Optional<Vote>> findOne(final VoteQuery query);
+  /**
+   * Updates user's vote in the database.
+   */
+  Future<Vote> updateVote(final VoteInput input, final String userId);
 
-  Future<Vote> addOne(final VoteInput input);
+  /**
+   * Removes users vote from the database.
+   */
+  Future<Boolean> unvote(final VoteSelector selector, final String userId);
 
-  Future<Boolean> deleteOne(final VoteQuery query);
+  /**
+   * Checks if user has already voted on given item.
+   */
+  Future<Boolean> hasVoted(final VoteSelector selector, final String userId);
 
-  Future<Optional<Vote>> updateOne(final UpdateVoteInput input);
+  /**
+   * Returns the score of given item.
+   */
+  Future<Score> voteScore(final VoteSelector selector);
 }

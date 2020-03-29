@@ -1,19 +1,17 @@
 package io.appwish.voteservice.model.reply;
 
-import java.util.Objects;
-
 import io.appwish.grpc.VoteReplyProto;
+import io.appwish.voteservice.model.Vote;
+import java.util.Objects;
 import net.badata.protobuf.converter.annotation.ProtoClass;
 import net.badata.protobuf.converter.annotation.ProtoField;
-import io.appwish.voteservice.model.Vote;
 
 /**
  * Represents data to return for single vote query.
- *
- * {@link ProtoClass} and {@link ProtoField} annotations are used by {@link
- * net.badata.protobuf.converter.Converter} to convert back/forth between protobuf data transfer
- * objects and model objects.
- *
+ * <p>
+ * {@link ProtoClass} and {@link ProtoField} annotations are used by {@link net.badata.protobuf.converter.Converter} to convert back/forth between
+ * protobuf data transfer objects and model objects.
+ * <p>
  * The converter requires a POJO with getters, setters and a default constructor.
  */
 @ProtoClass(VoteReplyProto.class)
@@ -57,7 +55,7 @@ public class VoteReply {
   @Override
   public String toString() {
     return "VoteReply{" +
-      "vote=" + vote +
-      '}';
+        "vote=" + vote +
+        '}';
   }
 }

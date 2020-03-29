@@ -1,6 +1,8 @@
 package io.appwish.voteservice.verticle;
 
-
+import io.appwish.voteservice.interceptor.ExceptionDetailsInterceptor;
+import io.appwish.voteservice.interceptor.UserContextInterceptor;
+import io.appwish.voteservice.service.GrpcServiceImpl;
 import io.grpc.BindableService;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
@@ -10,7 +12,6 @@ import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import io.vertx.grpc.VertxServer;
 import io.vertx.grpc.VertxServerBuilder;
-import io.appwish.voteservice.service.GrpcServiceImpl;
 
 /**
  * Verticle responsible for spinning up the gRPC server.
@@ -22,7 +23,7 @@ public class GrpcVerticle extends AbstractVerticle {
   private static final String APP_HOST = "appHost";
 
   @Override
-  public void start(final Promise<Void> startPromise) throws Exception {
+  public void start(final Promise<Void> startPromise) {
     final ConfigRetriever retriever = ConfigRetriever.create(vertx);
     final BindableService grpcVoteService = new GrpcServiceImpl(vertx.eventBus());
 
@@ -32,17 +33,18 @@ public class GrpcVerticle extends AbstractVerticle {
       final Integer appPort = config.getInteger(APP_PORT);
 
       final VertxServer server = VertxServerBuilder
-        .forAddress(vertx, appHost, appPort)
-        .addService(grpcVoteService)
-        .build();
+          .forAddress(vertx, appHost, appPort)
+          .intercept(new UserContextInterceptor())
+          .addService(grpcVoteService)
+          .intercept(new ExceptionDetailsInterceptor())
+          .build();
 
       server.start(asyncResult -> {
         if (asyncResult.succeeded()) {
           LOG.info("GrpcServiceImpl gRPC server started on port: " + appPort);
           startPromise.complete();
         } else {
-          LOG.error(
-            "Could not start GrpcServiceImpl gRPC server: " + asyncResult.cause().getMessage());
+          LOG.error("Could not start GrpcServiceImpl gRPC server: " + asyncResult.cause().getMessage());
           startPromise.fail(asyncResult.cause());
         }
       });

@@ -1,8 +1,12 @@
-package io.appwish.voteservice.model;
+package io.appwish.voteservice.model.converter;
 
 import io.appwish.grpc.ItemTypeProto;
+import io.appwish.voteservice.model.type.ItemType;
 import net.badata.protobuf.converter.type.TypeConverter;
 
+/**
+ * Allows converting {@link ItemType} objects to {@link ItemTypeProto} and reverse.
+ */
 public class ItemTypeConverter implements TypeConverter<ItemType, ItemTypeProto> {
 
   @Override
@@ -30,5 +34,4 @@ public class ItemTypeConverter implements TypeConverter<ItemType, ItemTypeProto>
 
     throw new IllegalArgumentException("Instance is none of valid values of ItemType");
   }
-
 }

@@ -5,12 +5,12 @@ import io.vertx.core.eventbus.MessageCodec;
 
 /**
  * MessageCodecs are required to pass custom objects via the event bus.
- *
+ * <p>
  * This implementation enables passing objects via their reference.
- *
- * The {@link LocalReferenceCodec} transfer method is invoked during local event bus message
- * exchange and just returns the object reference to avoid any serialization.
- *
+ * <p>
+ * The {@link LocalReferenceCodec} transfer method is invoked during local event bus message exchange and just returns the object reference to avoid
+ * any serialization.
+ * <p>
  * You should use this class only to pass messages on a single JVM / locally.
  */
 public final class LocalReferenceCodec<T> implements MessageCodec<T, T> {
