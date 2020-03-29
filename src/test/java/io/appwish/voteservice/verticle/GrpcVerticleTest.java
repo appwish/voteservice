@@ -2,20 +2,17 @@ package io.appwish.voteservice.verticle;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
-import io.appwish.grpc.AllVoteQueryProto;
+import io.appwish.grpc.VoteSelectorProto;
 import io.appwish.grpc.VoteServiceGrpc;
 import io.appwish.voteservice.TestData;
+import io.appwish.voteservice.eventbus.Address;
+import io.appwish.voteservice.eventbus.EventBusConfigurer;
 import io.grpc.ManagedChannel;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
-import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.grpc.VertxChannelBuilder;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
-import io.appwish.voteservice.eventbus.Address;
-import io.appwish.voteservice.eventbus.Codec;
-import io.appwish.voteservice.eventbus.EventBusConfigurer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -29,12 +26,12 @@ class GrpcVerticleTest {
     final ManagedChannel channel = VertxChannelBuilder.forAddress(vertx, TestData.APP_HOST, TestData.APP_PORT).usePlaintext(true).build();
     final VoteServiceGrpc.VoteServiceVertxStub serviceStub = new VoteServiceGrpc.VoteServiceVertxStub(channel);
     vertx.deployVerticle(new GrpcVerticle(), new DeploymentOptions(), context.completing());
-    vertx.eventBus().consumer(Address.FIND_ALL_VOTES.get(), event -> event.reply(TestData.VOTES, new DeliveryOptions().setCodecName(Codec.VOTE.getCodecName())));
+    vertx.eventBus().consumer(Address.HAS_VOTED.get(), event -> event.reply(false));
 
     util.registerCodecs();
 
     // when
-    serviceStub.getAllVote(AllVoteQueryProto.newBuilder().build(), event -> {
+    serviceStub.hasVoted(VoteSelectorProto.newBuilder().build(), event -> {
 
       // then
       context.verify(() -> {
