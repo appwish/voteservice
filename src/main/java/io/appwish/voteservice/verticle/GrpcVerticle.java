@@ -5,6 +5,8 @@ import io.appwish.voteservice.interceptor.UserContextInterceptor;
 import io.appwish.voteservice.service.GrpcServiceImpl;
 import io.grpc.BindableService;
 import io.vertx.config.ConfigRetriever;
+import io.vertx.config.ConfigRetrieverOptions;
+import io.vertx.config.ConfigStoreOptions;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
 import io.vertx.core.json.JsonObject;
@@ -24,8 +26,11 @@ public class GrpcVerticle extends AbstractVerticle {
 
   @Override
   public void start(final Promise<Void> startPromise) {
-    final ConfigRetriever retriever = ConfigRetriever.create(vertx);
     final BindableService grpcVoteService = new GrpcServiceImpl(vertx.eventBus());
+    final ConfigStoreOptions envs = new ConfigStoreOptions().setType("env");
+    final ConfigStoreOptions fileStore = new ConfigStoreOptions().setType("file").setConfig(new JsonObject().put("path", "conf/config.json"));
+    final ConfigRetrieverOptions options = new ConfigRetrieverOptions().addStore(fileStore).addStore(envs);
+    final ConfigRetriever retriever = ConfigRetriever.create(vertx, options);
 
     retriever.getConfig(event -> {
       final JsonObject config = event.result();
