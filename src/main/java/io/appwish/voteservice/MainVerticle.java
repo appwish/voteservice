@@ -63,6 +63,8 @@ public class MainVerticle extends AbstractVerticle {
 
       util.registerCodecs();
 
+      LOG.info("Preparing Postgres connection options: host=" + databaseHost + ", port=" + databasePort + ", name=" + databaseName + ", user=" + databaseUser + ", password=" + databasePassword.charAt(0) + "*****" + databasePassword.charAt(databasePassword.length() - 1));
+
       // TODO It's here just for development purposes
       client.preparedQuery(Query.CREATE_VOTE_TABLE.sql(), query -> { });
 
